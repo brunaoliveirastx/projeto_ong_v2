@@ -1,0 +1,607 @@
+/* ==========================================================================
+   Instituto Florescer — FOLHA DE ESTILOS (style.css)
+   --------------------------------------------------------------------------
+   Este arquivo contém CSS3 básico e didático, escrito manualmente, sem
+   frameworks (Bootstrap, Tailwind) e sem bibliotecas externas.
+
+   Como o foco atual da disciplina é HTML5, este CSS é intencionalmente
+   simples: define cores, tipografia, espaçamento e um layout responsivo
+   básico com Flexbox e Grid, preparado para receber melhorias visuais mais
+   avançadas nas próximas etapas do curso.
+
+   Sumário:
+   1. Variáveis (tokens de design)
+   2. Reset básico
+   3. Tipografia geral
+   4. Utilitários (container, botões, acessibilidade)
+   5. Cabeçalho e navegação
+   6. Seções gerais
+   7. Componentes (cartões, listas, indicadores)
+   8. Formulário (cadastro.html)
+   9. Rodapé
+   10. Responsividade (media queries)
+   ========================================================================== */
+
+
+/* ---------- 1. VARIÁVEIS (TOKENS DE DESIGN) ---------- */
+/* Paleta pensada para transmitir confiança (verde) e acolhimento (laranja). */
+:root {
+    --cor-primaria: #1F6F43;        /* verde principal: instituições, botões primários */
+    --cor-primaria-escura: #14512F; /* verde escuro: hover e textos de destaque */
+    --cor-secundaria: #E08E45;      /* laranja: calor humano, chamadas de ação secundárias */
+    --cor-secundaria-escura: #B96F2E;
+
+    --cor-fundo: #FAF9F6;           /* fundo geral, neutro e claro */
+    --cor-fundo-destacado: #F0EDE4; /* fundo de seções alternadas */
+    --cor-cartao: #FFFFFF;
+
+    --cor-texto: #262624;
+    --cor-texto-suave: #55534E;
+    --cor-borda: #DDD8CB;
+
+    --fonte-titulos: Georgia, 'Times New Roman', serif;
+    --fonte-corpo: 'Segoe UI', Verdana, Arial, sans-serif;
+
+    --raio-borda: 6px;
+    --espaco-secao: 4rem;
+}
+
+/* ---------- 2. RESET BÁSICO ---------- */
+/* Reset simples: remove margens padrão do navegador e unifica o box model. */
+* {
+    box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, p, ul, ol, dl, dd, figure {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ---------- 3. TIPOGRAFIA GERAL ---------- */
+body {
+    font-family: var(--fonte-corpo);
+    color: var(--cor-texto);
+    background-color: var(--cor-fundo);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--fonte-titulos);
+    color: var(--cor-primaria-escura);
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; margin-top: 0; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.05rem; color: var(--cor-texto); }
+
+p {
+    margin-bottom: 1rem;
+    max-width: 70ch; /* mantém linhas de texto confortáveis para leitura */
+}
+
+a {
+    color: var(--cor-primaria);
+}
+
+a:hover,
+a:focus {
+    color: var(--cor-primaria-escura);
+}
+
+/* Foco visível para navegação por teclado (acessibilidade) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--cor-secundaria);
+    outline-offset: 2px;
+}
+
+/* ---------- 4. UTILITÁRIOS ---------- */
+.container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.container--estreito {
+    max-width: 760px;
+}
+
+/* Link "pular para o conteúdo": só aparece quando recebe foco do teclado */
+.pular-para-conteudo {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background-color: var(--cor-primaria-escura);
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    z-index: 100;
+}
+
+.pular-para-conteudo:focus {
+    left: 1rem;
+    top: 1rem;
+}
+
+/* Classe para esconder texto visualmente, mas mantê-lo para leitores de tela */
+.apenas-leitor-de-tela {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+.botao {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--raio-borda);
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.botao--primario {
+    background-color: var(--cor-primaria);
+    color: #fff;
+}
+
+.botao--primario:hover,
+.botao--primario:focus {
+    background-color: var(--cor-primaria-escura);
+    color: #fff;
+}
+
+.botao--secundario {
+    background-color: transparent;
+    color: var(--cor-primaria-escura);
+    border-color: var(--cor-primaria);
+}
+
+.botao--secundario:hover,
+.botao--secundario:focus {
+    background-color: var(--cor-fundo-destacado);
+}
+
+/* ---------- 5. CABEÇALHO E NAVEGAÇÃO ---------- */
+.cabecalho-site {
+    background-color: var(--cor-cartao);
+    border-bottom: 1px solid var(--cor-borda);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.cabecalho-site__interno {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+}
+
+.logotipo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--cor-primaria-escura);
+    font-weight: bold;
+}
+
+.logotipo__texto {
+    font-family: var(--fonte-titulos);
+    font-size: 1.25rem;
+}
+
+.navegacao-principal__lista {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 0;
+}
+
+.navegacao-principal__lista a {
+    text-decoration: none;
+    color: var(--cor-texto);
+    font-weight: 600;
+}
+
+.navegacao-principal__lista a:hover,
+.navegacao-principal__lista a[aria-current="page"] {
+    color: var(--cor-primaria);
+    border-bottom: 2px solid var(--cor-primaria);
+}
+
+/* ---------- 6. SEÇÕES GERAIS ---------- */
+.secao {
+    padding: var(--espaco-secao) 0;
+}
+
+.secao--destacada,
+.secao--institucional {
+    background-color: var(--cor-fundo-destacado);
+}
+
+.secao-hero {
+    padding: var(--espaco-secao) 0;
+    background-color: var(--cor-fundo-destacado);
+}
+
+.secao-hero--interna {
+    text-align: left;
+}
+
+.secao-hero__interno {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.secao-hero__texto {
+    flex: 1 1 380px;
+}
+
+.secao-hero__destaque {
+    font-size: 1.15rem;
+    color: var(--cor-texto-suave);
+}
+
+.secao-hero__acoes {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.secao-hero__imagem {
+    flex: 1 1 320px;
+}
+
+.secao-hero__imagem figcaption,
+.secao-voluntariado__imagem figcaption {
+    font-size: 0.9rem;
+    color: var(--cor-texto-suave);
+    margin-top: 0.5rem;
+}
+
+.secao-historia__interno,
+.secao-voluntariado__interno,
+.secao-contato__interno {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.secao-historia__interno > div,
+.secao-voluntariado__interno > div,
+.secao-contato__interno > div {
+    flex: 1 1 320px;
+}
+
+/* ---------- 7. COMPONENTES (CARTÕES, LISTAS, INDICADORES) ---------- */
+.grade-cartoes {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.grade-cartoes--tres-colunas {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.cartao {
+    background-color: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    padding: 1.5rem;
+}
+
+.cartao--indicadores {
+    background-color: var(--cor-primaria-escura);
+    color: #fff;
+    border: none;
+}
+
+.cartao--indicadores h2 {
+    color: #fff;
+}
+
+.cartao__nota {
+    font-size: 0.9rem;
+    color: var(--cor-texto-suave);
+    margin-top: 1rem;
+}
+
+.cartao--indicadores .cartao__nota,
+.cartao--indicadores .cartao__nota a {
+    color: #E7E4D8;
+}
+
+.cartao__data {
+    font-size: 0.85rem;
+    color: var(--cor-secundaria-escura);
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.lista-valores,
+.lista-simples {
+    padding-left: 1.25rem;
+}
+
+.lista-valores li,
+.lista-simples li {
+    margin-bottom: 0.4rem;
+}
+
+.lista-indicadores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.lista-indicadores dt {
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.lista-indicadores dd {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.lista-indicadores--linha {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    color: var(--cor-primaria-escura);
+}
+
+.lista-indicadores--linha dt {
+    color: var(--cor-texto-suave);
+}
+
+.grade-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+.grade-galeria figcaption {
+    font-size: 0.85rem;
+    color: var(--cor-texto-suave);
+    margin-top: 0.4rem;
+}
+
+.endereco-contato {
+    font-style: normal;
+}
+
+.lista-redes-sociais {
+    list-style: none;
+    padding: 0;
+}
+
+.lista-redes-sociais li {
+    margin-bottom: 0.4rem;
+}
+
+/* Cartões de projeto (usados em projetos.html) */
+.cartao-projeto {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background-color: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+}
+
+.cartao-projeto__imagem {
+    flex: 1 1 280px;
+}
+
+.cartao-projeto__conteudo {
+    flex: 2 1 380px;
+}
+
+.cartao-projeto__categoria {
+    text-transform: none;
+    font-size: 0.85rem;
+    color: var(--cor-secundaria-escura);
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.lista-categorias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.lista-categorias a {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    background-color: var(--cor-fundo-destacado);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.lista-documentos {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.lista-documentos li {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--cor-borda);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.lista-documentos__meta {
+    color: var(--cor-texto-suave);
+    font-size: 0.9rem;
+}
+
+/* ---------- 8. FORMULÁRIO (cadastro.html) ---------- */
+fieldset {
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+legend {
+    font-family: var(--fonte-titulos);
+    font-weight: bold;
+    color: var(--cor-primaria-escura);
+    padding: 0 0.5rem;
+}
+
+.campo-formulario {
+    margin-bottom: 1.25rem;
+}
+
+.campo-formulario label,
+.campo-formulario > legend {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: var(--cor-cartao);
+    color: var(--cor-texto);
+}
+
+input:invalid:not(:placeholder-shown) {
+    border-color: #B3261E;
+}
+
+.texto-ajuda {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--cor-texto-suave);
+    margin-top: 0.35rem;
+}
+
+.opcao-radio,
+.opcao-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.opcao-radio label,
+.opcao-checkbox label {
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+.acoes-formulario {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* ---------- 9. RODAPÉ ---------- */
+.rodape-site {
+    background-color: var(--cor-primaria-escura);
+    color: #E7E4D8;
+    padding: 2.5rem 0;
+    margin-top: 2rem;
+}
+
+.rodape-site__interno {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.rodape-site a {
+    color: #fff;
+}
+
+.rodape-site__lista {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.rodape-site__copyright {
+    width: 100%;
+    font-size: 0.85rem;
+    color: #C9C5B4;
+    margin-top: 1rem;
+}
+
+/* ---------- 10. RESPONSIVIDADE (MEDIA QUERIES) ---------- */
+/* Abordagem simples "mobile-first-friendly": o layout base já usa Flexbox
+   e Grid com "auto-fit", então ele se reorganiza sozinho na maioria dos
+   casos. As media queries abaixo ajustam detalhes finos em telas menores. */
+
+@media (max-width: 700px) {
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.4rem; }
+
+    .cabecalho-site__interno {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navegacao-principal__lista {
+        gap: 1rem;
+    }
+
+    .cartao-projeto {
+        flex-direction: column;
+    }
+
+    .rodape-site__interno {
+        flex-direction: column;
+    }
+}
